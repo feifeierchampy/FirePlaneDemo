@@ -149,6 +149,7 @@ public class MainActivity extends Activity {
             mPaint = new Paint();
             mPaint.setColor(Color.WHITE);
 
+
             mScreenWidth = screenWidth;
             mScreenHeight = screenHeight;
 
@@ -197,6 +198,10 @@ public class MainActivity extends Activity {
 
         //初始化绘制
         public void InitDraw() {
+
+            //绘制屏幕背景为白色
+            mCanvas.drawColor(Color.WHITE);
+
             /**绘制飞机动画**/
             mPlane.DrawPlane(mCanvas, mPaint);
 
@@ -274,7 +279,7 @@ public class MainActivity extends Activity {
                 synchronized (mSurfaceHolder) {
                     /**拿到当前画布 然后锁定**/
                     mCanvas = mSurfaceHolder.lockCanvas();
-                    mCanvas.drawColor(Color.BLACK);
+                    //mCanvas.drawColor(Color.BLACK);
                     Draw();
                     /**绘制结束后解锁显示在屏幕上**/
                     mSurfaceHolder.unlockCanvasAndPost(mCanvas);
