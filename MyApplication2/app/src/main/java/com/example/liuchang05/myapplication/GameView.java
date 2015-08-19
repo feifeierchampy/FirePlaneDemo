@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,6 +24,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private Context mContext = null;
     private Thread mThread = null;
     private boolean mIsRunning = false;
+    private int mMark = 0;
 
     //屏幕与绘图
     private int mScreenWidth = 0;
@@ -47,7 +49,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public int mBulletSendId = 0;
     public Long mBulletSendTime = 0L;
     final static int BULLET_COUNT = 10;
-    final static int FIRE_TIME = 700;
+    final static int FIRE_TIME = 500;
 
     //敌机
     private Enemy mEnemy[] = null;
@@ -56,7 +58,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private int mEnemySendId = 0;
     private int mEnemyBitWidth = 0;
     private int mEnemyBitHeight = 0;
-    private static int ENEMY_TIME = 700;
+    private static int ENEMY_TIME = 500;
     private static int ENEMY_COUNT = 10;
 
 
@@ -72,7 +74,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         setFocusable(true);
 
         mPaint = new Paint();
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(Color.BLACK);
 
         init();
     }
@@ -111,6 +113,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     //绘制图形
     public void Draw() {
+        //绘制分数
+        mCanvas.drawText(""+mMark,50,50,mPaint);
+
+
         //绘制主机
         mPlane.DrawPlane(mCanvas, mPaint);
         if (mTouching)
@@ -183,6 +189,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                         Math.abs(enemyCenter.centerY - bulletCenter.centerY) < mBulletBitHeight/2 + mEnemyBitHeight/2 ){
                     mEnemy[i].init(random(),0);
                     mBullet[j].init(mPlane.mPlanePosX + mPlaneWidth/2 - mBulletBitWidth/2 , mPlane.mPlanePosY - mBulletBitHeight);
+                    mMark += 100;
+                    //Log.e("MARK",""+mMark);
                 }
             }
 
@@ -191,6 +199,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             if(Math.abs(enemyCenter.centerX - planeCenter.centerX) < mPlaneWidth/2 + mEnemyBitWidth/2 &&
                     Math.abs(enemyCenter.centerY - planeCenter.centerY) < mPlaneHeight/2 + mEnemyBitHeight/2 ){
                 Intent intent = new Intent(mContext,OverActivity.class);
+                intent.putExtra("MARK",mMark);
                 mContext.startActivity(intent);
                 surfaceDestroyed(mSurfaceHolder);
                 ((Activity)mContext).finish();
@@ -204,7 +213,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             //在这里加上线程安全锁
             synchronized (mSurfaceHolder) {
                 mCanvas = mSurfaceHolder.lockCanvas();//可优化
-                mCanvas.drawColor(Color.BLACK);
+                mCanvas.drawColor(Color.WHITE);
                 Draw();
                 Listen();
                 mSurfaceHolder.unlockCanvasAndPost(mCanvas);

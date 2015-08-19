@@ -15,8 +15,8 @@ public class Plane {
 
     Center center = null;
     //飞机在屏幕中的坐标
-    public int mPlanePosX = 0;
-    public int mPlanePosY = 0;
+    public int mPlanePosX = 1000;
+    public int mPlanePosY = 1000;
 
     private Bitmap pBitmap = null;
 
