@@ -12,8 +12,8 @@ public class Enemy {
     static final int ENEMY_STEP_Y = 15;
 
     /** 敌机的XY坐标 **/
-    public int m_posX = -10;
-    public int m_posY = 0;
+    public int m_posX = -1000;
+    public int m_posY = -1000;
     private Center center = null;
 
     //敌机图片
