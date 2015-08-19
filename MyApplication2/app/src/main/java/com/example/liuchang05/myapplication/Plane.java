@@ -1,6 +1,6 @@
 package com.example.liuchang05.myapplication;
 
-import android.content.Context;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -10,11 +10,11 @@ import android.graphics.Paint;
  */
 public class Plane {
 
-    //·É»úÒÆ¶¯ËÙ¶È
-    static final int PLANE_SPEED = 10000;
+    //é£æœºç§»åŠ¨é€Ÿåº¦
+    static final int PLANE_SPEED = 50;
 
-
-    //·É»úÔÚÆÁÄ»ÖĞµÄ×ø±ê
+    Center center = null;
+    //é£æœºåœ¨å±å¹•ä¸­çš„åæ ‡
     public int mPlanePosX = 0;
     public int mPlanePosY = 0;
 
@@ -24,37 +24,38 @@ public class Plane {
     public Plane(Bitmap planeBitmap)
     {
         pBitmap = planeBitmap;
+        center = new Center();
     }
 
-    //µÃµ½·É»úÍ¼Æ¬µÄ¸ß¶È
+    //å¾—åˆ°é£æœºå›¾ç‰‡çš„é«˜åº¦
     public int getPlaneBitHeight()
     {
         return pBitmap.getHeight();
     }
 
-    //µÃµ½·É»úÍ¼Æ¬µÄ¿í¶È
+    //å¾—åˆ°é£æœºå›¾ç‰‡çš„å®½åº¦
     public int getPlaneBitWidth()
     {
         return pBitmap.getWidth();
     }
 
-    //³õÊ¼»¯·É»ú×ø±ê
+    //åˆå§‹åŒ–é£æœºåæ ‡
     public void init(int x, int y)
     {
         mPlanePosX = x;
         mPlanePosY = y;
     }
 
-    //»æÖÆ·É»ú
+    //ç»˜åˆ¶é£æœº
     public void DrawPlane(Canvas canvas, Paint paint)
     {
         canvas.drawBitmap(pBitmap, mPlanePosX, mPlanePosY, paint);
     }
 
-    //¸üĞÂ·É»úÎ»ÖÃ
+    //æ›´æ–°é£æœºä½ç½®
     public void UpdatePlane(int x, int y)
     {
-/*
+
         if (mPlanePosX < x) {
             mPlanePosX += PLANE_SPEED;
         } else {
@@ -65,7 +66,7 @@ public class Plane {
         } else {
             mPlanePosY -= PLANE_SPEED;
         }
-*/
+
         if (Math.abs(mPlanePosX - x) <= PLANE_SPEED) {
             mPlanePosX = x;
         }
@@ -74,5 +75,10 @@ public class Plane {
         }
     }
 
+    public Center getCenter(){
+        center.centerX = mPlanePosX + (pBitmap.getWidth()/2);
+        center.centerY = mPlanePosY + (pBitmap.getHeight()/2);
+        return center;
+    }
 
 }

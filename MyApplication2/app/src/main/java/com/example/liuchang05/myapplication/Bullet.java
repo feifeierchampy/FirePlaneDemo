@@ -1,39 +1,39 @@
 package com.example.liuchang05.myapplication;
 
-/**
- * Created by CHAMPION on 2015/8/16.
- */
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+/**
+ * Created by CHAMPION on 2015/8/16.
+ */
 public class Bullet {
 
-    /**×Óµ¯µÄYÖáËÙ¶È**/
-    static final int BULLET_STEP_Y = 35;
+    /**å­å¼¹çš„Yè½´é€Ÿåº¦**/
+    static final int BULLET_STEP_Y = 50;
+
+    private Center center = null;
 
 
-    /** ×Óµ¯µÄXY×ø±ê **/
+    /** å­å¼¹çš„XYåæ ‡ **/
     public int m_posX = 0;
     public int m_posY = 0;
 
-    //×Óµ¯Í¼Æ¬
+    //å­å¼¹å›¾ç‰‡
     private Bitmap bBitmap = null;
 
 
-    /**ÊÇ·ñ¸üĞÂ»æÖÆ×Óµ¯**/
+    /**æ˜¯å¦æ›´æ–°ç»˜åˆ¶å­å¼¹**/
     boolean mFacus = false;
 
 
     public Bullet(Bitmap bulletBitmap)
     {
         bBitmap = bulletBitmap;
-
+        center = new Center();
     }
 
-    /**³õÊ¼»¯×ø±ê**/
+    /**åˆå§‹åŒ–åæ ‡**/
     public void init(int x, int y) {
         m_posX = x;
         m_posY = y;
@@ -42,19 +42,24 @@ public class Bullet {
 
 
 
-    /**»æÖÆ×Óµ¯**/
+    /**ç»˜åˆ¶å­å¼¹**/
     public void DrawBullet(Canvas canvas, Paint paint) {
         if (mFacus) {
             canvas.drawBitmap(bBitmap,m_posX,m_posY,paint);
         }
     }
 
-    /**¸üĞÂ×Óµ¯µÄ×ø±êµã**/
+    /**æ›´æ–°å­å¼¹çš„åæ ‡ç‚¹**/
     public void UpdateBullet() {
         if (mFacus) {
             m_posY -= BULLET_STEP_Y;
         }
+    }
 
+    public Center getCenter(){
+        center.centerX = m_posX + (bBitmap.getWidth()/2);
+        center.centerY = m_posY + (bBitmap.getHeight()/2);
+        return center;
     }
 
 }

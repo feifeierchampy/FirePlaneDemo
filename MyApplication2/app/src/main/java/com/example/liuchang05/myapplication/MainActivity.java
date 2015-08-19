@@ -1,336 +1,52 @@
 package com.example.liuchang05.myapplication;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-
-import java.io.InputStream;
-
-
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.view.Display;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.SurfaceHolder.Callback;
-import android.view.Window;
-import android.view.WindowManager;
-;
+
 
 
 public class MainActivity extends Activity {
 
-    PlaneView mPlaneView = null;
+    private GameView mGameView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // È«ÆÁÏÔÊ¾´°¿Ú
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // »ñÈ¡ÆÁÄ»¿í¸ß
+        // è·å–å±å¹•å®½é«˜
         Display display = getWindowManager().getDefaultDisplay();
 
-        // ÏÔÊ¾×Ô¶¨ÒåµÄÓÎÏ·View
-        mPlaneView = new PlaneView(this, display.getWidth(), display.getHeight());
-        setContentView(mPlaneView);
+        // æ˜¾ç¤ºè‡ªå®šä¹‰çš„æ¸¸æˆView
+        mGameView = new GameView(this, display.getWidth(), display.getHeight());
+        setContentView(mGameView);
+
+
     }
+
+
     public boolean onTouchEvent(MotionEvent event) {
-        // »ñµÃ´¥ÃşµÄ×ø±ê
+        // è·å¾—è§¦æ‘¸çš„åæ ‡
         int x = (int) event.getX();
         int y = (int) event.getY();
         switch (event.getAction()) {
-            // ´¥ÃşÆÁÄ»Ê±¿Ì
+            // è§¦æ‘¸å±å¹•æ—¶åˆ»
             case MotionEvent.ACTION_DOWN:
-                mPlaneView.UpdateTouchEvent(x, y,true);
+                mGameView.UpdateTouchEvent(x, y,true);
                 break;
-            // ´¥Ãş²¢ÒÆ¶¯Ê±¿Ì
+            // è§¦æ‘¸å¹¶ç§»åŠ¨æ—¶åˆ»
             case MotionEvent.ACTION_MOVE:
-                mPlaneView.UpdateTouchEvent(x, y,true);
+                mGameView.UpdateTouchEvent(x, y,true);
                 break;
-            // ÖÕÖ¹´¥ÃşÊ±¿Ì
+            // ç»ˆæ­¢è§¦æ‘¸æ—¶åˆ»
             case MotionEvent.ACTION_UP:
-                mPlaneView.UpdateTouchEvent(x, y,false);
+                mGameView.UpdateTouchEvent(x, y,false);
                 break;
         }
         return false;
     }
 
-    public class PlaneView extends SurfaceView implements Callback, Runnable {
-        /**
-         * ÆÁÄ»µÄ¿í¸ß*
-         */
-        private int mScreenWidth = 0;
-        private int mScreenHeight = 0;
 
-        Paint mPaint = null;
-
-
-
-        //×Óµ¯¶ÔÏóµÄÊıÁ¿
-        final static int BULLET_COUNT = 10;
-
-
-        //Ã¿¹ı1500ºÁÃë·¢ÉäÒ»¿Å×Óµ¯
-        final static int FIRE_TIME = 1300;
-
-
-
-        /**
-         * ÓÎÏ·Ö÷Ïß³Ì*
-         */
-        private Thread mThread = null;
-        /**
-         * Ïß³ÌÑ­»·±êÖ¾*
-         */
-        private boolean mIsRunning = false;
-
-        private SurfaceHolder mSurfaceHolder = null;
-        private Canvas mCanvas = null;
-
-        private Context mContext = null;
-
-
-        Plane mPlane =null;
-
-        //·É»úÍ¼Æ¬µÄ¸ß¶È
-        private int mPlaneHeight = 0;
-        //·É»úÍ¼Æ¬µÄ¿í¶È
-        private int mPlaneWidth = 0;
-
-
-        /**
-         * ×Óµ¯Àà*
-         */
-        Bullet mBullet[] = null;
-        Bitmap mBitbullet[] = null;
-
-        //×Óµ¯Í¼Æ¬¸ß¶È
-        private int mBulletBitHeight = 0;
-        //×Óµ¯Í¼Æ¬¿í¶È
-        private int mBulletBitWidth = 0;
-
-
-        /**
-         * ³õÊ¼»¯·¢Éä×Óµ¯IDÉıĞò*
-         */
-        public int mSendId = 0;
-
-        /**
-         * ÉÏÒ»¿Å×Óµ¯·¢ÉäµÄÊ±¼ä*
-         */
-        public Long mSendTime = 0L;
-
-
-        /**
-         * ÊÖÖ¸ÔÚÆÁÄ»´¥ÃşµÄ×ø±ê*
-         */
-        public int mTouchPosX = 0;
-        public int mTouchPosY = 0;
-
-
-        /**
-         * ±êÖ¾ÊÖÖ¸ÔÚÆÁÄ»´¥ÃşÖĞ*
-         */
-        public boolean mTouching = false;
-
-
-        public PlaneView(Context context, int screenWidth, int screenHeight) {
-            super(context);
-            mContext = context;
-
-            mPaint = new Paint();
-            mPaint.setColor(Color.WHITE);
-
-
-            mScreenWidth = screenWidth;
-            mScreenHeight = screenHeight;
-
-            //»ñÈ¡mSurfaceHolder
-            mSurfaceHolder = getHolder();
-            mSurfaceHolder.addCallback(this);
-            setFocusable(true);
-
-            init();
-
-        }
-
-        //³õÊ¼»¯ÓÎÏ·×ÊÔ´
-        private void init() {
-
-            //´´½¨Ö÷»ú¶ÔÏó
-            mPlane = new Plane(ReadBitmap(mContext, R.drawable.plane));
-
-            mPlaneHeight = mPlane.getPlaneBitHeight();
-            mPlaneWidth = mPlane.getPlaneBitWidth();
-
-            //³õÊ¼»¯Ö÷»ú×ø±ê
-            mPlane.init(mScreenWidth/2, mScreenHeight - mPlaneHeight);
-
-
-            //´´½¨×Óµ¯¶ÔÏó
-            mBullet = new Bullet[BULLET_COUNT];
-            mBitbullet = new Bitmap[BULLET_COUNT];
-
-            for (int i = 0; i < BULLET_COUNT; i++) {
-                mBitbullet[i] = ReadBitmap(mContext, R.drawable.bullet);
-
-                mBulletBitHeight = mBitbullet[0].getHeight();
-                mBulletBitWidth = mBitbullet[0].getWidth();
-            }
-
-            for (int i = 0; i < BULLET_COUNT; i++) {
-                mBullet[i] = new Bullet(mBitbullet[i]);
-            }
-
-            mSendTime = System.currentTimeMillis();
-
-
-
-        }
-
-        //³õÊ¼»¯»æÖÆ
-        public void InitDraw() {
-
-            //»æÖÆÆÁÄ»±³¾°Îª°×É«
-            mCanvas.drawColor(Color.WHITE);
-
-            /**»æÖÆ·É»ú¶¯»­**/
-            mPlane.DrawPlane(mCanvas, mPaint);
-
-            /**»æÖÆ×Óµ¯¶¯»­*/
-            for (int i = 0; i < BULLET_COUNT; i++) {
-                mBullet[i].DrawBullet(mCanvas, mPaint);
-            }
-
-        }
-
-        //¸üĞÂ»æÍ¼(Ö»ÊÇ¸üĞÂ×ø±ê)
-        public void UpdateDraw()
-        {
-            /** ÊÖÖ¸´¥ÃşÆÁÄ»¸üĞÂ·É»ú×ø±ê **/
-            if (mTouching)
-            {
-                mPlane.UpdatePlane(mTouchPosX, mTouchPosY);
-            }
-            /** ¸üĞÂ×Óµ¯¶¯»­ **/
-            for (int i = 0; i < BULLET_COUNT; i++) {
-                /** ×Óµ¯³öÆÁºóÖØĞÂ¸³Öµ**/
-                mBullet[i].UpdateBullet();
-
-            }
-
-
-            /**¸ù¾İÊ±¼ä³õÊ¼»¯Îª·¢ÉäµÄ×Óµ¯**/
-            if (mSendId < BULLET_COUNT) {
-                long now = System.currentTimeMillis();
-                if (now - mSendTime >= FIRE_TIME) {
-                    // mBullet[mSendId].init(mPlane.mPlanePosX - BULLET_LEFT_OFFSET, mPlane.mPlanePosY - BULLET_UP_OFFSET);
-                    mBullet[mSendId].init(mPlane.mPlanePosX + mPlaneWidth/2 - mBulletBitWidth/2 , mPlane.mPlanePosY - mBulletBitHeight);
-
-                    mSendTime = now;
-                    mSendId++;
-                }
-            } else {
-                mSendId = 0;
-            }
-        }
-
-
-        protected void Draw() {
-
-            InitDraw();
-
-            UpdateDraw();
-
-
-        }
-
-        public void UpdateTouchEvent(int x, int y, boolean touching) {
-            // ÔÚÕâÀï¼ì²â°´Å¥°´ÏÂ²¥·Å²»Í¬µÄÌØĞ§
-            mTouching = touching;
-            mTouchPosX = x - mPlaneWidth/2;
-            mTouchPosY = y - mPlaneHeight/2;
-        }
-
-        public Bitmap ReadBitmap(Context context, int resId) {
-            BitmapFactory.Options opt = new BitmapFactory.Options();
-            opt.inPreferredConfig = Bitmap.Config.RGB_565;
-            opt.inPurgeable = true;
-            opt.inInputShareable = true;
-            // »ñÈ¡×ÊÔ´Í¼Æ¬
-            InputStream is = context.getResources().openRawResource(resId);
-            return BitmapFactory.decodeStream(is, null, opt);
-        }
-
-
-
-        @Override
-        public void run() {
-            while (mIsRunning) {
-                //ÔÚÕâÀï¼ÓÉÏÏß³Ì°²È«Ëø
-                synchronized (mSurfaceHolder) {
-                    /**ÄÃµ½µ±Ç°»­²¼ È»ºóËø¶¨**/
-                    mCanvas = mSurfaceHolder.lockCanvas();
-                    //mCanvas.drawColor(Color.BLACK);
-                    Draw();
-                    /**»æÖÆ½áÊøºó½âËøÏÔÊ¾ÔÚÆÁÄ»ÉÏ**/
-                    mSurfaceHolder.unlockCanvasAndPost(mCanvas);
-                }
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
-        @Override
-        public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2,
-                                   int arg3) {
-            // surfaceViewµÄ´óĞ¡·¢Éú¸Ä±äµÄÊ±ºò
-
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder arg0) {
-            /**Æô¶¯ÓÎÏ·Ö÷Ïß³Ì**/
-            mIsRunning = true;
-            mThread = new Thread(this);
-            mThread.start();
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder arg0) {
-            // surfaceViewÏú»ÙµÄÊ±ºò
-            mIsRunning = false;
-        }
-
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
