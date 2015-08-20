@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.liuchang05.startdemo.OverActivity">
+
+    <TextView android:id="@+id/tv1"
+        android:text="你的分数是："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"/>
+
+    <TextView android:id="@+id/tvGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv1"
+        android:layout_alignBottom="@+id/tv1"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etUsername"
+        android:hint="请输入昵称"
+        android:layout_alignLeft="@id/tv1"
+        android:layout_below="@id/tv1"
+        android:layout_marginRight="15dp"/>
+
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/etUsername"
+        android:text="确定"
+        android:layout_alignBottom="@+id/etUsername"
+        />
+
+    <TextView android:id="@+id/tvRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etUsername"
+        android:text="排行榜"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#FFFAFA"
+        android:dividerHeight="2px"
+        android:id="@+id/ls1"
+        android:layout_below="@+id/tvRank"
+        android:layout_marginTop="15dp"></ListView>
+
+    <Button
+        android:id="@+id/btnReStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重新开始"
+        android:layout_below="@+id/ls1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+
+
+</RelativeLayout>
