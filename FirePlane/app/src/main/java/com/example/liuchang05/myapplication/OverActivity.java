@@ -44,12 +44,14 @@ public class OverActivity extends AppCompatActivity {
         Button btnRestart = (Button)findViewById(R.id.btnReStart);
         //昵称输入框
         EditText edName = (EditText)findViewById(R.id.etUsername);
+        
+        //将数据插入到数据库中
+        DatabaseUtil db = new DatabaseUtil(com.example.liuchang05.myapplication.OverActivity.this);
 
 
         btnOK.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                //将数据插入到数据库中
-                DatabaseUtil db = new DatabaseUtil(com.example.liuchang05.myapplication.OverActivity.this);
+
                 try {
                     db.Open();
 
