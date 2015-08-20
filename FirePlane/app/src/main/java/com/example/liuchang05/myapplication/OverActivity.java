@@ -23,7 +23,7 @@ public class OverActivity extends AppCompatActivity {
 
     //private TextView mMarkView = null;
 
-    //µÃ·Ö
+    //ï¿½Ã·ï¿½
     public int mark = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +35,25 @@ public class OverActivity extends AppCompatActivity {
         //mMarkView = (TextView) findViewById(R.id.mark);
         //mMarkView.setText(""+mark);
 
-        //µÃ·ÖTextView
+        //è·å–TextView
         TextView tvGrade = (TextView)findViewById(R.id.tvGrade);
         tvGrade.setText(Integer.toString(mark));
-        //È·¶¨°´Å¥
+        //
         Button btnOK = (Button)findViewById(R.id.btnOK);
-        //ÖØĞÂ¿ªÊ¼°´Å¥
+        //
         Button btnRestart = (Button)findViewById(R.id.btnReStart);
-        //êÇ³ÆÊäÈë¿ò
+        //
         final EditText edName = (EditText)findViewById(R.id.etUsername);
 
 
         btnOK.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                //½«Êı¾İ²åÈëµ½Êı¾İ¿âÖĞ
+                //æ•°æ®åº“è¿æ¥
                 DatabaseUtil db = new DatabaseUtil(com.example.liuchang05.myapplication.OverActivity.this);
                 try {
                     db.Open();
 
-                    //µÃµ½ÓÃ»§ÊäÈëµÄÃû×Ö
+                    //å¾—åˆ°è¾“å…¥çš„ç”¨æˆ·å
                     String name = edName.getText().toString();
 
                     long temp = db.InsertUser(name, mark);
@@ -107,7 +107,7 @@ public class OverActivity extends AppCompatActivity {
             }
         });
 
-        //ÖØĞÂ¿ªÊ¼
+        //é‡æ–°å¼€å§‹æŒ‰é’®çš„ç›‘å¬
         btnRestart.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 Intent mIntent = new Intent();
