@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        //开始按钮的点击事件
+        //寮�濮嬫寜閽殑鐩戝惉
         btnStart.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Intent mIntent = new Intent();
