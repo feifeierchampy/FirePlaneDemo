@@ -1,6 +1,7 @@
 package com.example.liuchang05.myapplication;
 
 import android.content.Intent;
+<<<<<<< HEAD
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +26,22 @@ public class OverActivity extends AppCompatActivity {
 
     //�÷�
     public int mark = 0;
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
+public class OverActivity extends AppCompatActivity {
+
+    private TextView mMarkView = null;
+>>>>>>> fe2bdbd7b451dbc1708f8084a9c7c269b3bb6c35
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_over);
+<<<<<<< HEAD
 
         Intent intent = getIntent();
         mark = intent.getIntExtra("MARK", -100);
@@ -128,6 +141,12 @@ public class OverActivity extends AppCompatActivity {
 
 
 
+=======
+        Intent intent = getIntent();
+        int mark = intent.getIntExtra("MARK",-100);
+        mMarkView = (TextView) findViewById(R.id.mark);
+        mMarkView.setText(""+mark);
+>>>>>>> fe2bdbd7b451dbc1708f8084a9c7c269b3bb6c35
     }
 
     @Override

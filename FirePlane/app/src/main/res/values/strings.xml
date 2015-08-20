@@ -4,5 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_over">OverActivity</string>
+<<<<<<< HEAD:FirePlane/app/src/main/res/values/strings.xml
     <string name="title_activity_main">MainActivity</string>
+=======
+>>>>>>> fe2bdbd7b451dbc1708f8084a9c7c269b3bb6c35:FirePlane/app/src/main/res/values/strings.xml
 </resources>
