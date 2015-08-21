@@ -1,5 +1,6 @@
 package com.example.liuchang05.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OverActivity extends AppCompatActivity {
+public class OverActivity extends Activity {
 
     //得分
     private int mark = 0;
@@ -125,8 +126,9 @@ public class OverActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent mIntent = new Intent();
                 mIntent.setClass(OverActivity.this, GameActivity.class);
-                startActivity(mIntent);
                 finish();
+                startActivity(mIntent);
+
 
             }
         });
