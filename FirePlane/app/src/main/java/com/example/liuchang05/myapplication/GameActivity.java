@@ -22,10 +22,7 @@ public class GameActivity extends Activity {
         // 显示自定义的游戏View
         mGameView = new GameView(this, display.getWidth(), display.getHeight());
         setContentView(mGameView);
-
-
     }
-
 
     public boolean onTouchEvent(MotionEvent event) {
         // 获得触摸的坐标

@@ -89,24 +89,10 @@ public class DatabaseUtil {
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 
-    //删除数据
-    //public boolean DeleteUser(long id)
-    //{
-
-    //}
-
-    //更新数据
-    //public boolean UpdateUser(int id, String name, String grade)
-    //{
-        //ContentValues args = new ContentValues();
-        //args.put(KEY_NAME, name)
-    //}
 
     //得到所有数据按照分数降序排列
     public Cursor fetchAllData()
     {
-//        return mDb.query(DATABASE_TABLE, new String[] {KEY_NAME, KEY_GRAGE},
-//                null, null, null, null, null);
         return  mDb.rawQuery("SELECT "+ KEY_ID + " AS _id,"+KEY_NAME+","+KEY_GRAGE+" from "+DATABASE_TABLE +" order by "+KEY_GRAGE + " DESC", null);
     }
 
@@ -121,9 +107,5 @@ public class DatabaseUtil {
         }
         return mCursor;
     }
-
-
-
-
 
 }
